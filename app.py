@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, send_from_directory, request
 
 app = Flask(__name__, static_url_path='/') 
 app.static_folder="static"
@@ -10,6 +10,11 @@ app_route = app.route
 def views(path):
     html_path = 'htmls/{}.html'.format(path)
     return app.send_static_file(html_path)
+
+@app_route('/add_user', methods=['POST'])
+def add_user():
+	form_data = request.get_json()
+	return {'msg': 'ok'}
 
 if __name__ == '__main__':
     app.run(port=4770, debug=True)
