@@ -17,8 +17,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
         url: '/createAccount',
         templateUrl: '/create-account-page.html'
     };
+    dashBoardState = {
+        name: 'dashBoard',
+        url: '/dashBoard',
+        templateUrl: '/dashboard.html'
+    }
     $stateProvider.state(loginState);
     $stateProvider.state(createAccountState);
+    $stateProvider.state(dashBoardState);
   
     // Redirect to home page if url does not matches any of the three mentioned above 
     $urlRouterProvider.otherwise("/"); 
@@ -28,10 +34,20 @@ app.controller('LoginCtrl', function($scope, $http, $state, $stateParams) {
     $scope.createUser = function(){
         $state.transitionTo('createAccount');
     };
+    $scope.signIn = function() {
+        $http.post('/sign_in', $scope.userDetails).then(function(response) {
+            var response = response.data;
+            if(response.result){
+                $state.transitionTo('dashBoard');
+            }else{
+                return false;
+            }
+        });
+    };
 });
 app.controller('createAccountCtrl', function($scope, $http, $state) {
     $scope.addUser = function() {
-        $http.post('/add_user', {'formObj' : $scope.userDetails}).then(function(response) {
+        $http.post('/add_user', $scope.userDetails).then(function(response) {
             $state.transitionTo('login');
         });
     };

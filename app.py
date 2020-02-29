@@ -4,7 +4,6 @@ from routes import *
 
 app = Flask(__name__, static_url_path='/') 
 app.static_folder="static"
-# app_route = app.route
 app.register_blueprint(routes)
 
 @app.route('/', defaults={'path': 'index'}, methods=['GET', 'POST'])
