@@ -1,7 +1,8 @@
 from flask import request
 from . import routes
 from db.utils import AutoSession
-from api.user import create_user, authenticate_user
+from api.user import create_user, authenticate_user, get_user_details
+from routes.route_utils import common_route
 
 route = routes.route
 
@@ -16,3 +17,8 @@ def add_user():
 def sign_in():
 	form_data = request.get_json()
 	return authenticate_user(**form_data)
+
+@route('/get_user', methods=['GET'])
+@common_route
+def get_user(*args, **kwargs):
+	return get_user_details(*args, **kwargs)
